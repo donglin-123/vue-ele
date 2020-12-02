@@ -1,0 +1,8 @@
+//重置浏览器的默认样式
+@import './reset.scss';
+//主题的CSS样式
+@import './theme.scss';
+//导入的scss是有先后顺序的！从上到下依次执行，放在其他位置将报错！
+body {
+    background-color: $bg-color;
+}
