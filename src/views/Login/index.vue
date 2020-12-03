@@ -1,23 +1,224 @@
 <template>
-  <div>
-    <h1>Login~~~~</h1>
-    <el-row>
-      <el-button>默认按钮</el-button>
-      <el-button type="primary">主要按钮</el-button>
-      <el-button type="success">成功按钮</el-button>
-      <el-button type="info">信息按钮</el-button>
-      <el-button type="warning">警告按钮</el-button>
-      <el-button type="danger">危险按钮</el-button>
-     </el-row>
+  <div id="login">
+       <div class="login-warp">
+          <ul class="menuTab"> 
+            <li :class='{"current":item.current}' v-for='(item,index) in menuTab' :key='index' @click="toggleMenu(item)">{{item.text}}</li>
+          </ul>
+          <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm"   class="login-form" size="medium">
+            
+            <el-form-item  prop="username" class="form-item">
+              <label for="username" >邮箱</label>
+              <el-input id="username" type="text" v-model="ruleForm.username" autocomplete="off"></el-input>
+            </el-form-item>
+            
+            <el-form-item  prop="password" class="form-item">
+              <label for="password">密码</label>
+              <el-input id="password" type="text" v-model="ruleForm.password" autocomplete="off"></el-input>
+            </el-form-item>
+
+            <el-form-item v-show='mode == "register"' prop="password1" class="form-item">
+              <label for="password1">再次确认密码</label>
+              <el-input id="password1" type="text" v-model="ruleForm.password1" autocomplete="off"></el-input>
+            </el-form-item>
+            
+            <el-form-item  prop="code" class="form-item">
+              
+              <label for="code">验证码</label>
+              <el-row :gutter="10">
+                <el-col :span="15">
+                   <el-input id="code" v-model="ruleForm.code" ></el-input>
+                </el-col>
+                <el-col :span="9">
+                   <el-button type="success" class="block">获取验证码</el-button>
+                </el-col>
+              </el-row>
+            </el-form-item>
+            <el-form-item class="form-item">
+              <el-button type="danger" class="block top" @click="submitForm('ruleForm')">{{this.mode=="login"?"登录":"注册"}}</el-button>
+            
+            </el-form-item>
+          </el-form>
+       </div>
   </div>
 </template>
-
 <script>
-
+import validateUtils from '@/utils/validate.js'
 export default {
+    setup(prop,context){
+   //-------------------------data-----------------------
+       const mode=ref("login")
+   //-------------------------methods---------------------
+        return{
+          mode
+        }
+    },
+    data(){
 
+    //验证码验证 
+      var validateCode = (rule, value, callback) => {
+      //过滤特殊字符
+      this.ruleForm.code = value = validateUtils.validate_inputValue(value,'code')
+      if (!value) {
+        return callback(new Error('验证码不能为空'))
+      } else if (validateUtils.test_code(value)) {
+        callback(new Error('验证码格式错误'))
+      } else {
+        callback()
+      }
+    }
+
+// 邮箱验证
+    var validateUsername = (rule, value, callback) => {
+      this.ruleForm.username = value = validateUtils.validate_inputValue(value,'email')
+           
+      //   let reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
+      //   严谨模式的邮箱
+      if (value === '') {
+        callback(new Error('请输入邮箱'))
+      } else if (validateUtils.test_email(value)) {
+        callback(new Error('邮箱格式错误'))
+      } else {
+        callback()
+      }
+    };
+
+    // 密码验证
+    var validatePassword = (rule, value, callback) => {
+      this.ruleForm.password = value = validateUtils.validate_inputValue(value,'password')
+      
+      // 验证的字段 rule  输入的值 value 验证后做的操作（回调函数）
+      //   注意是数字字母组合
+      if (value === '') {
+        //   输入错误
+        callback(new Error('请输入密码'))
+      } else if (validateUtils.test_password(value)) {
+        callback(new Error('密码格式需6~20位'))
+      } else {
+        //   输入正确
+        callback()
+      }
+    };
+
+    //再次密码验证
+    var validatePassword1 = (rule, value, callback) => {
+      //如果想用 v-show而不用 v-if隐藏重复密码时
+      if(this.mode=='login') {
+        callback()
+        return
+        }
+      //验证的字段 输入的值 验证后要做什么（回调函数）
+      this.ruleForm.password1 = value = validateUtils.validate_inputValue(value,'password1')
+      
+       if(value!==this.ruleForm.password){
+        callback(new Error('两次密码输入不一致'))
+      }else{
+        callback()
+      }
+    };
+    //   验证码验证
+    
+      return {
+        mode:"login",
+        menuTab:[
+            {text:"登录",current:true,type:"login"},
+            {text:"注册",current:false,type:"register"}
+        ],
+        //input绑定的数据
+        ruleForm: {
+          username: '',
+          password: '',
+          password1: '',
+          code: ''
+        },
+       //校验方式
+        rules: {
+          username: [
+            { validator: validateUsername, trigger: 'blur' }
+          ],
+          password: [
+            { validator: validatePassword, trigger: 'blur' }
+          ],
+          password1: [
+            { validator: validatePassword1, trigger: 'blur' }
+          ],
+          code: [
+            { validator: validateCode, trigger: 'blur' }
+          ]
+        }
+      }
+    },
+    methods:{
+      toggleMenu(item){
+        this.menuTab.map(item=>item.current=false);
+        item.current=true;
+        this.mode=item.type
+      },
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            alert('submit!');
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      }
+    
+    }
 };
 </script>
 <style lang="scss">
+  #login{
+    height:100vh;//基于浏览器的可视区域
+    background-color:rgb(52, 74, 95);
+  }
+  .login-warp{
+     width: 331px;
+     margin:0 auto;
+  }
+  .menuTab{  
+      text-align: center;
+      li{
+        margin-top: 250px;
+        display: inline-block;
+        list-style: none;
+        width: 91px;
+        height:37px;
+        line-height: 35px;
+        color: #fff;
+        font-size: 16px;
+        border-radius:3px; 
+      }
+      .current{
+        background-color:rgb(48, 66, 86);
+      }
+  }
+  .login-form{
+    label{
+      display: block;
+      color: #fff;
+      font-size: 16px;
+      margin-bottom: 3px;
+    }
+    .form-item{
+       margin-bottom: 14px;
 
+    }
+    .block{
+      display: block;
+      width: 100%;
+    }
+    .top{
+      margin-top: 23px;
+      background-color: rgba(250,182,183,1);
+      color:#fff;
+    }
+  }
+ .cheng{
+   margin-left: 10px;
+ }
+  
 </style>

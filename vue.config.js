@@ -1,35 +1,36 @@
-// const path = require('path');
-// // console.log('项目的绝对路径', _dirname);
-// // console.log('项目中某个目录中的绝对路径', path.resolve(_dirname, './src/components'));
-// // 配置目录的别名
-// configureWebpack: (config) => {
-//     config.resolve = {
-//         extensions: ['.js', '.json', '.vue'],
-//         alias: {
-//             "@c": path.resolve(_dirname, './src/components'),
-//             "@a": path.resolve(_dirname, './src/assets'),
-//             "@p": path.resolve(_dirname, './src/public'),
-//             vue$: "vue/dist/vue.esm.js",
-//             import vue from 'vue',
-//         }
-//     }
-// }
-
-
-
-// commonjs 规范是node.js的规范
+// 模块化导入path commn.js
+const path = require("path");
+// console.log('项目的绝对路径', _dirname);
+// 输出绝对路径 C:\Users\MrDong\Desktop\vue-ele\src\components~
+// console.log('某个目录的绝对路径', path.resolve(__dirname, './src/components'));
 module.exports = {
+    lintOnSave: false, //是否开启语法检测
     css: {
         // 是否使用css分离插件 ExtractTextPlugin
         extract: true,
         // 开启 CSS source maps?
         sourceMap: true,
-        // css预设器配置项
+        // css预设器配置项a
         loaderOptions: {
             scss: {
                 prependData: `@import "./src/styles/main.scss";`
             }
         },
+    },
+    // 配置目录别名
+    configureWebpack: (config) => {
+        config.resolve = {
+            alias: {
+                // 获取绝对路径  
+                "@": path.resolve(__dirname, './src'),
+                "@c": path.resolve(__dirname, './src/components'),
+                "@a": path.resolve(__dirname, './src/assets'),
+                "@p": path.resolve(__dirname, './public'),
+                // 以vue结尾的
+                vue$: "vue/dist/vue.esm.js"
+            },
+            // 引入文件的时候不写后缀，默认加载
+            extensions: ['.js', '.json', '.vue']
+        }
     }
-
 }

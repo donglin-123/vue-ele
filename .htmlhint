@@ -1,0 +1,117 @@
+"htmlhint.options": { 
+  "csslint": {
+ 
+
+ 
+ 
+  "display-property-grouping": 
+  true,
+ 
+
+ 
+ 
+  "known-properties": 
+  true
+ 
+
+ 
+
+   },
+ 
+
+ 
+ 
+  "jshint": {},
+ 
+
+ 
+ 
+  "src-not-empty": 
+  true,
+ 
+
+ 
+ 
+  "title-require": 
+  true,
+ 
+
+ 
+ 
+  "alt-require": 
+  true,
+ 
+
+ 
+ 
+  "style-disabled": 
+  true,
+ 
+
+ 
+ 
+  "id-class-ad-disabled": 
+  true,
+ 
+
+ 
+ 
+  "attr-unsafe-chars": 
+  true,
+ 
+
+ 
+ 
+  "doctype-html5": 
+  true,
+ 
+
+ 
+ 
+  "id-unique": 
+  true,
+ 
+
+ 
+ 
+  "spec-char-escape": 
+  true,
+ 
+
+ 
+ 
+  "tag-self-close": 
+  true,
+ 
+
+ 
+ 
+  "doctype-first": 
+  true,
+ 
+
+ 
+ 
+  "tag-pair": 
+  true,
+ 
+
+ 
+ 
+  "tagname-lowercase": 
+  true,
+ 
+
+ 
+ 
+  "space-tab-mixed-disabled": 
+  "true"
+ 
+
+ 
+ 
+ 
+
+ 
+
+  }
