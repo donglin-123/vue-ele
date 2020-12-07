@@ -29,7 +29,7 @@
                    <el-input id="code" v-model="ruleForm.code" ></el-input>
                 </el-col>
                 <el-col :span="9">
-                   <el-button type="success" class="block" @click="getCode">获取验证码</el-button>
+                   <el-button type="success" class="block">获取验证码</el-button>
                 </el-col>
               </el-row>
             </el-form-item>
@@ -44,12 +44,8 @@
 <script>
 import validateUtils from '@/utils/validate.js'
 import{onMounted,reactive,ref} from '@vue/composition-api'
-import{get_code} from '@/api/login.js'
 export default {
-
-    setup(prop,{refs,root}){
-//------------------生命周期------------------------------------
-   
+    setup(prop,refs){
 //-------------------data--------------------------------------
       //验证码验证 
       let validateCode = (rule, value, callback) => {
@@ -80,16 +76,11 @@ export default {
     };
 
     // 密码验证
-     // 密码验证
     let validatePassword = (rule, value, callback) => {
-      ruleForm.password = value = validateUtils.validate_inputValue(
-        value,
-        'password'
-      )
+      ruleForm.password = value = validateUtils.validate_inputValue(value,'password')
+      
       // 验证的字段 rule  输入的值 value 验证后做的操作（回调函数）
       //   注意是数字字母组合
-
-
       if (value === '') {
         //   输入错误
         callback(new Error('请输入密码'))
@@ -99,7 +90,8 @@ export default {
         //   输入正确
         callback()
       }
-    }
+    };
+
     //再次密码验证
     let validatePassword1 = (rule, value, callback) => {
       //如果想用 v-show而不用 v-if隐藏重复密码时
@@ -147,7 +139,7 @@ export default {
           ]
         })
 //-------------------methods---------------------------------
-
+  
     const submitForm=(formName=>{
         refs[formName].validate((valid) => {
           if (valid) {
@@ -160,38 +152,16 @@ export default {
       })
       const  toggleMenu=((item)=>{
         menuTab.map(item=>item.current=false);
-        item.current=true
+        item.current=true;
         mode.value=item.type
-        //点击登录切换到注册时清空数据
-        refs['ruleForm'].resetFields()
       })
-
-
-//获取验证码
-const getCode=(()=>{
-  //判断如果邮箱不存在
-     if(ruleForm.username==''){
-       root.$message.error('邮箱不能为空')
-       return false
-     }
-     const data={
-       username:ruleForm.username,
-       module:module.value
-     }
-     get_code(data).then((res)=>{
-        root.$message.success(res.data.message)
-      }).catch((err)=>{
-        console.log("请求错误",err)
-      })
-})
       return{
           mode,
           menuTab,
           ruleForm,
           rules,
           submitForm,
-          toggleMenu,
-          getCode
+          toggleMenu
 
       }
     },

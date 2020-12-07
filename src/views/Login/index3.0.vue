@@ -71,7 +71,7 @@ export default {
               // (2)定义生命周期       按照生命周期的顺序执行
               //      onMounted(()=>{ //回调函数
               //        console.log(xxx)
-              //      })
+              //     })
      },
     data(){
 
