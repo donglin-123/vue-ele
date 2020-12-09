@@ -1,8 +1,17 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
+// const BASEUSRL = process.env.NODE_ENV === 'development' ? '/api' : '' //api
 
+let BASEUSRL = null
 
-const BASEUSRL = process.env.NODE_ENV === 'development' ? '/api' : '' //api
+const mock = true
+if (mock) {
+    //使用本地的代理数据
+    BASEUSRL = process.env.NODE_ENV === 'development' ? '' : '' //api
+} else {
+    BASEUSRL = process.env.NODE_ENV === 'development' ? '/api' : '' //api
+}
+
 const http = axios.create({
         baseURL: BASEUSRL //http://localhost:8080/api/getSms/ 只要URL里面有api开头的都是接口请求 
     })

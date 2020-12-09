@@ -34,7 +34,7 @@
               </el-row>
             </el-form-item>
             <el-form-item class="form-item">
-              <el-button type="danger" class="block top" @click="submitForm('ruleForm')">{{this.mode=="login"?"登录":"注册"}}</el-button>
+              <el-button type="danger" class="block top" :disabled="buttonStatus" @click="submitForm('ruleForm')">{{this.mode=="login"?"登录":"注册"}}</el-button>
             
             </el-form-item>
           </el-form>

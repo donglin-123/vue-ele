@@ -36,15 +36,17 @@ module.exports = {
         }
     },
     devServer: {
-        port: 8888,
+        port: 8080, //自定义接口
         open: true, //启动项目会自动打开浏览器
-        // 代理
+        // 代理  
+        // logLevel:"debug"  //打印代理日志
         proxy: {
             // http://localhost:8080/api/getSms/
-            // http://www.web-jshtml.cn/productapi/api/getSms/
+            // http://www.web-jshtml.cn/productapi/api/getSms/  没有token 值
+            // http://www.web-jshtml.cn/productapi/token/getSms/  有token 值
             // bugLevel: 'debug', //打印代理的日志
             '/api': {
-                target: 'http://www.web-jshtml.cn/productapi/', //目标 接口
+                target: 'http://www.web-jshtml.cn/productapi/token/', //目标 接口
                 changeOrigin: true, //生成一个 localhost:8080 域名下的一个node服务器，帮你做代理
                 // 重写 URL
                 pathRewrite: {
