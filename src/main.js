@@ -11,6 +11,13 @@ import 'element-ui/lib/theme-chalk/index.css';
 import VueCompositionApi from '@vue/composition-api';
 // 导入全局图标组件
 import './icons/'
+// 注入全局的方法
+// import global from './utils/global.js' //引入
+// Vue.user(global)      //添加
+
+import moment from 'moment'
+Vue.prototype.$moment = moment
+
 Vue.use(ElementUI);
 Vue.use(VueCompositionApi);
 // 系统默认的环境变量
@@ -54,8 +61,7 @@ Vue.config.productionTip = false;
 // import './styles/main.scss'
 
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount("#app");
-

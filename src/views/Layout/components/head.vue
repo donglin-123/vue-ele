@@ -6,7 +6,7 @@
 
     <div class="pull-right">
       <div class="pull-left userinfo">
-        <img src="../../../assets/toux.jpg" alt="" />
+        <img src="../../../assets/user.jpg" alt="" />
       </div>
 
       <div class="pull-right header-icon aa" @click="exit">

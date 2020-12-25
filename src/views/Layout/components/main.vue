@@ -1,11 +1,20 @@
 <template>
   <div id="main_wrap">
-    <router-view></router-view>
+    <keep-alive>
+        <router-view v-if='$route.meta.keep'/>
+    </keep-alive>
+    <router-view v-if='!$route.meta.keep'/>
   </div>
 </template>
-
 <script>
-export default {}
+import{reactive,ref,watch} from '@vue/composition-api'
+export default {
+   setup(props,{root}){
+  //    watch(()=>root.$route.path,(value1,value2)=>{
+  //      console.log(value1,value2)
+  //    })
+   }
+}
 </script>
 <style lang="scss" scoped>
 #main_wrap {
