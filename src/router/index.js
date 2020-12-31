@@ -7,7 +7,7 @@ const routes = [{
         redirect: "/home",
         // 隐藏
         hidden: true,
-        mate: {
+        meta: {
             name: ""
         },
     },
@@ -15,7 +15,7 @@ const routes = [{
         path: "/home",
         name: "Home",
         hidden: false, // 显示
-        mate: { // 自定义属性
+        meta: { // 自定义属性
             name: "控制台",
             icon: 'console'
         },
@@ -26,7 +26,7 @@ const routes = [{
         children: [{
             path: "/index",
             name: "HomeIndex",
-            mate: {
+            meta: {
                 name: "首页",
                 keep: true
             },
@@ -40,7 +40,7 @@ const routes = [{
         // 显示
         hidden: false,
         // 自定义属性
-        mate: {
+        meta: {
             name: "信息管理",
             icon: 'info'
         },
@@ -49,8 +49,9 @@ const routes = [{
         children: [{
                 path: "/info",
                 name: "infoIndex",
-                mate: {
-                    name: "信息列表"
+                meta: {
+                    name: "信息列表",
+                    keep: true
                 },
                 component: () =>
                     import ("../views/Info/index.vue"),
@@ -58,11 +59,23 @@ const routes = [{
             {
                 path: "/infoCate",
                 name: "infoCate",
-                mate: {
-                    name: "信息分类"
+                meta: {
+                    name: "信息分类",
+                    keep: true
                 },
                 component: () =>
                     import ("../views/Info/cate.vue"),
+            },
+            {
+                path: "/infoDetail",
+                name: "infoDetail",
+                meta: {
+                    name: "消息详情",
+                    keep: true
+                },
+                hidden: true,
+                component: () =>
+                    import ("../views/Info/detail.vue"),
             }
         ]
     },
@@ -72,7 +85,7 @@ const routes = [{
         // 显示
         hidden: false,
         // 自定义属性
-        mate: {
+        meta: {
             name: "用户管理",
             icon: 'user'
         },
@@ -81,7 +94,7 @@ const routes = [{
         children: [{
                 path: "/userIndex",
                 name: "userIndex",
-                mate: {
+                meta: {
                     name: "用户管理"
                 },
                 component: () =>
@@ -90,7 +103,7 @@ const routes = [{
             {
                 path: "/userCate",
                 name: "userCate",
-                mate: {
+                meta: {
                     name: "用户分类"
                 },
                 component: () =>
@@ -103,7 +116,7 @@ const routes = [{
         name: "Login",
         // 隐藏
         hidden: true,
-        mate: {
+        meta: {
             name: "登录"
         },
         component: () =>

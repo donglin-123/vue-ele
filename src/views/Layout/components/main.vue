@@ -3,16 +3,16 @@
     <keep-alive>
         <router-view v-if='$route.meta.keep'/>
     </keep-alive>
-    <router-view v-if='!$route.meta.keep'/>
+       <router-view v-if='!$route.meta.keep'/>
   </div>
 </template>
 <script>
 import{reactive,ref,watch} from '@vue/composition-api'
 export default {
    setup(props,{root}){
-  //    watch(()=>root.$route.path,(value1,value2)=>{
-  //      console.log(value1,value2)
-  //    })
+     watch(()=>root.$route.path,(value1,value2)=>{
+      //  console.log(value1,value2)
+     })
    }
 }
 </script>

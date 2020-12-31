@@ -16,19 +16,16 @@
       <template v-for="(item, index) in routes">
         <el-submenu :index="index + ''" :key="index" v-if="!item.hidden">
           <template slot="title">
-            <!-- 添加svg图标 -->
-            <svg-icon :iconName="item.mate.icon" :iconClass="item.mate.icon" />
-            <!-- 循环加载名字 -->
-            <span slot="title">{{ item.mate.name }}</span>
+              <!-- 添加svg图标 -->
+              <svg-icon :iconName="item.meta.icon" :iconClass="item.meta.icon" />
+              <!-- 循环加载名字 -->
+              <span slot="title">{{ item.meta.name }}</span>
           </template>
           <!-- 二级路由 -->
           <el-menu-item-group>
-            <el-menu-item
-              :index="itemChild.path"
-              v-for="(itemChild, index) in item.children"
-              :key="index"
-              >{{ itemChild.mate.name }}</el-menu-item
-            >
+            <template v-for="(itemChild,_index) in item.children">
+              <el-menu-item :index="itemChild.path" v-if='!itemChild.hidden' :key="_index"> {{ itemChild.meta.name }} </el-menu-item>     
+            </template>
           </el-menu-item-group>
         </el-submenu>
       </template>

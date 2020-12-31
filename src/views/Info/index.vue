@@ -87,10 +87,11 @@
         </el-table-column>
         <el-table-column prop="id" label="管理人" min-width="1">
         </el-table-column>
-        <el-table-column label="操作" min-width="2">
+        <el-table-column label="操作" min-width="3">
           <template slot-scope="scope">
             <el-button size="mini" type="danger" @click='deleteItem(scope.row.id)'>删除</el-button>
-           <el-button size="mini" type="success" @click='editItem(scope.row.id)'>编辑</el-button>  
+            <el-button size="mini" type="success" @click='editItem(scope.row.id)'>编辑</el-button>
+            <el-button size="mini" type="success" @click='detailItem(scope.row)'>编辑详情</el-button>    
           </template>
         </el-table-column>
       </el-table>
@@ -103,8 +104,8 @@
           <el-pagination
             class="pull-right"
             background
-            :current-page="current_page"
-            :page-sizes="[10, 20, 30]"
+            :current-page="1"
+            :page-sizes="[2, 5, 10]"
             layout="sizes,total,prev, pager, next"
             :total="total"
             @current-change="current_change"
@@ -120,6 +121,8 @@
     </div>
   </div>
 </template>
+
+search_key
 <script>
 import {onMounted,reactive,ref,watch } from '@vue/composition-api'
 import InfoDialog from './dialog/info'
@@ -185,6 +188,29 @@ export default {
     let selected_data=reactive([])
     const editId=ref('')
     //////////////////////////////// methods /////////////////////////////////
+    const detailItem=((row)=>{
+      // 让消息详情在nav中显示
+        root.$router.options.routes[2].children[2].hidden=false
+        // 跳转
+        // 把需要要的参数保存到vuex 本地
+       const params={
+         id:{
+                value:row.id,
+                key:'id',
+                session:true   //保存到session
+              },
+             
+       }
+      root.$store.commit('params/CACHE_PARAMS',params)
+      
+      root.$router.push({
+          name:'infoDetail',
+          params:{
+              id:row.id,
+              content:'xxx'
+          }
+        })
+    })
     const editItem=((id)=>{
        info_dialog_edit.value = true
        editId.value=id
@@ -268,8 +294,8 @@ export default {
       delete_news({
         id:ids
       }).then(res=>{
-        pageNumber:1
-        pageSize:5
+        // pageNumber:1
+        // pageSize:5
         getNews()
       })
     }
@@ -352,6 +378,7 @@ export default {
       getNews,
       size_change,
       editItem,
+      detailItem,
     }
   },
 }
