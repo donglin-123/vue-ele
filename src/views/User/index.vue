@@ -34,14 +34,17 @@
               <!-- <el-button slot='del'>删除</el-button>
               <el-button slot='update'>编辑</el-button> -->
               
-              <template v-slot:del> <!--简化: #del -->
-                 <el-button type=danger>禁用</el-button>
+              <template v-slot:del='scopeData'> <!--简化: #del -->
+                 <el-button type='danger' size='mini' @click="del(scopeData.data)">删除</el-button>
               </template>
                <template v-slot:update ><!--简化: #update -->
-                <el-button type="success">编辑</el-button>
+                <el-button type="success" size='mini'>编辑</el-button>
+              </template> 
+              <template v-slot:footer >
+                    <el-button type="info">批量删除</el-button>
               </template>
-              
-             
+        
+
           </tableVue>
        </el-row>
   </div>
@@ -91,21 +94,43 @@ export default {
                         {
                                 prop:'',
                                 label:'禁启用状态',
-                                width:''
+                                width:'',
+                                type:'slot',
+                                slotName:'del'
                         },
                         {
                                 prop:'',
                                 label:'操作',
-                                width:''
+                                width:'',
+                                type:'slot',
+                                slotName:'update'
                         },
                   ],
                   // 是否要显示多选框
                   showSelect:true,
+                  //表格接口请求参数
+                  requestData:{
+                        url: "/user/getList/",
+                        method: "post",
+                        data:{
+                            pageNumber:1,
+                            pageSize:2
+                        }
+                    },
+                    // 分页样式
+                    page:{
+                       layout:"total,sizes,prev, pager, next",
+                        total:0,
+                        page_sizes:[2,4,5]
+                    }
              }
 
-        })  
+        }) 
+        const del=((value)=>{
+           console.log(value)
+        }) 
         return{
-          data
+          data,del,
         }
   }
 }
@@ -117,4 +142,17 @@ export default {
 
 /* 传递什么值?
  值的格式是什么?*/
+ // const data={
+                //         username:'1000012937@qq.com',
+                //         truename:'选搜的',
+                //         password:'12345',
+                //         phone:13222333388,
+                //         region:{},
+                //         status:1,
+                //         role:'info, user',
+                //         btnPerm:'',
+                // }
+                // add_user(data).then(res=>{
+                // console.log(res)
+                // })
 </style>

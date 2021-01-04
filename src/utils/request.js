@@ -62,7 +62,7 @@ http.interceptors.response.use(function(response) {
     // 对响应数据做点什么 对数据进行过滤
     if (response.data.resCode != 0) {
         // 提示服务器返回的信息
-        Message.error(response.data.message) //提示邮箱不能为空！！
+        // Message.error(response.data.message) //提示邮箱不能为空！！
         return Promise.reject({ error: response.data.message });
     }
 
